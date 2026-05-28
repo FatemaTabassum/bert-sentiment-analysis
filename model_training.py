@@ -3,9 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from transformers import AutoModelForSequenceClassification
-from utils import compute_metrics # Assuming utils.py is in the same directory
-import numpy as np
-from sklearn.metrics import accuracy_score # Import here for eval_step
+from sklearn.metrics import accuracy_score
 
 def load_model(num_labels=3, model_name="bert-base-uncased"):
     model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
