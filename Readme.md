@@ -1,6 +1,8 @@
 # BERT Sentiment Analysis
 
-Fine-tuning `bert-base-uncased` for 3-class sentiment classification (positive, neutral, negative) with a config-driven pipeline and W&B experiment tracking.
+![CI](https://github.com/FatemaTabassum/bert-sentiment-analysis/actions/workflows/ci.yml/badge.svg)
+
+Fine-tuning `bert-base-uncased` for 3-class sentiment classification (positive, neutral, negative) with a config-driven pipeline, W&B experiment tracking, and FastAPI serving.
 
 ## Overview
 
@@ -119,10 +121,23 @@ curl -X POST "http://127.0.0.1:8000/predict" \
 
 Interactive API docs available at `http://127.0.0.1:8000/docs` when the server is running.
 
+## Results
+
+| Setting | Test Accuracy |
+|---|---|
+| Frozen BERT (classifier only) | 48.6% |
+| Full fine-tuning (all layers) | **66.4%** |
+
+## CI
+
+This project uses GitHub Actions to run `ruff` linting and import checks on every push to `main`.
+
 ## Tech Stack
 
 - [Transformers](https://huggingface.co/docs/transformers) — BERT model and tokenizer
-- [PyTorch](https://pytorch.org) — custom training loop
+- [PyTorch](https://pytorch.org) — custom training loop with MPS (Apple GPU) support
 - [Weights & Biases](https://wandb.ai) — experiment tracking
+- [FastAPI](https://fastapi.tiangolo.com) — REST API serving
 - [scikit-learn](https://scikit-learn.org) — metrics and train/val/test split
 - [PyYAML](https://pyyaml.org) — config management
+- [ruff](https://docs.astral.sh/ruff/) — linting (CI)
