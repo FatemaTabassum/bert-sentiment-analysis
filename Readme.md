@@ -16,6 +16,8 @@ bert-sentiment-analysis/
 ├── data_processing.py       # Data loading, cleaning, tokenization, dataloaders
 ├── model_training.py        # Training loop, evaluation, W&B logging
 ├── utils.py                 # Metrics (accuracy, F1) and config loader
+├── predict.py               # CLI inference script
+├── app.py                   # FastAPI REST API server
 ├── config/
 │   ├── config.yaml          # Main config entry point
 │   ├── data_config.yaml     # Dataset and preprocessing settings
@@ -76,6 +78,46 @@ Each run logs: `train_loss`, `val_loss`, `val_accuracy` per epoch.
 **Default:** `cardiffnlp/tweet_eval` (sentiment config) — ~45k tweets, 3 classes, loaded directly from HuggingFace.
 
 **Custom fallback:** 30 patient feedback samples in `data/` — balanced across positive, neutral, and negative classes.
+
+## REST API (FastAPI)
+
+Start the API server:
+
+```bash
+uvicorn app:app --reload
+```
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/health` | Health check |
+| `POST` | `/predict` | Predict sentiment for a text |
+
+### Example request
+
+```bash
+curl -X POST "http://127.0.0.1:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "The doctor was very kind and attentive."}'
+```
+
+### Example response
+
+```json
+{
+  "text": "The doctor was very kind and attentive.",
+  "sentiment": "positive",
+  "confidence": 0.8581,
+  "scores": {
+    "negative": 0.0363,
+    "neutral": 0.1056,
+    "positive": 0.8581
+  }
+}
+```
+
+Interactive API docs available at `http://127.0.0.1:8000/docs` when the server is running.
 
 ## Tech Stack
 
