@@ -7,7 +7,7 @@
 import wandb
 from dotenv import load_dotenv
 from utils import load_config
-from data_processing import load_and_preprocess_data, load_hf_sentiment_data, tokenize_data, create_dataloaders
+from data_processing import load_hf_sentiment_data, tokenize_data, create_dataloaders
 from model_training import eval_step, run_training_loop, load_model, setup_training
 import torch
 
