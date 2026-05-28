@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Claude Code session files
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+sentiment_analysis_env/
+
+# Models & outputs
+models/
+outputs/
+wandb/

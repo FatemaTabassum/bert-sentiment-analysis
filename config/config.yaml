@@ -1,0 +1,7 @@
+defaults:
+  - data: data_config
+  - model: model_config
+  - training: training_config
+
+project_name: "bert-sentiment-analysis"
+seed: 42

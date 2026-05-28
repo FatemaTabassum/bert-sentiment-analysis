@@ -1,0 +1,11 @@
+dataset_name: "cardiffnlp/tweet_eval"
+dataset_config: "sentiment"
+split: "train"
+max_samples: 5000
+max_length: 128
+batch_size: 32
+test_size: 0.1
+val_size: 0.15
+random_state: 42
+
+
