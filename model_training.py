@@ -12,7 +12,11 @@ def load_model(num_labels=3, model_name="bert-base-uncased"):
     return model
 
 def setup_training(model, learning_rate=2e-5, freeze_bert_layers=True):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device(
+      'cuda' if torch.cuda.is_available()
+      else 'mps' if torch.backends.mps.is_available()
+      else 'cpu'
+    )
     model.to(device)
 
     # print("Model parameters before freezing:")
@@ -55,6 +59,8 @@ def train_step(dataloader, model, loss_fn, optimizer, device):
     avg_train_loss = total_loss / len(dataloader)
     return avg_train_loss
 
+
+
 def eval_step(dataloader, model, loss_fn, device):
     model.eval()  # Set model to evaluation mode
     total_loss = 0
@@ -83,7 +89,13 @@ def eval_step(dataloader, model, loss_fn, device):
     accuracy = accuracy_score(all_true_labels, all_predictions)
     return avg_eval_loss, accuracy
 
-def run_training_loop(model, train_dataloader, val_dataloader, device, optimizer, loss_fn, num_epochs=3):
+
+
+def run_training_loop(model, train_dataloader, val_dataloader, device, optimizer, loss_fn, num_epochs=3, output_dir="models/"):
+    import os
+    os.makedirs(output_dir, exist_ok=True)
+    best_val_accuracy = 0.0
+
     for epoch in range(num_epochs):
         print(f"\nEpoch {epoch + 1}/{num_epochs}")
 
@@ -99,6 +111,11 @@ def run_training_loop(model, train_dataloader, val_dataloader, device, optimizer
             "val_loss": val_loss,
             "val_accuracy": val_accuracy
         })
+
+        if val_accuracy > best_val_accuracy:
+            best_val_accuracy = val_accuracy
+            torch.save(model.state_dict(), os.path.join(output_dir, "best_model.pt"))
+            print(f"  Saved best model (val_accuracy={best_val_accuracy:.4f})")
 
     wandb.finish()
     print("\nTraining finished!")

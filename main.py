@@ -89,7 +89,8 @@ def main():
     run_training_loop(
         model, train_dataloader, val_dataloader,
         device, optimizer, loss_fn,
-        num_epochs=cfg["training"]["num_epochs"]
+        num_epochs=cfg["training"]["num_epochs"],
+        output_dir=cfg["training"]["output_dir"]
     )
 
     # --- Evaluate on test set ---

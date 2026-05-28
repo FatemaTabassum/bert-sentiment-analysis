@@ -14,3 +14,6 @@ sentiment_analysis_env/
 models/
 outputs/
 wandb/
+
+# Personal
+liza_info.md
