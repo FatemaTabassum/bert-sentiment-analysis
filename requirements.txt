@@ -16,3 +16,4 @@ wandb
 python-dotenv
 fastapi
 uvicorn
+ruff
